@@ -1,4 +1,4 @@
-package sparta.spartaproject.entity;
+package sparta.spartaproject.entity.user;
 
 public enum UserRole {
     USER,

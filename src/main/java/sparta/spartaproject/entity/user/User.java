@@ -1,7 +1,9 @@
-package sparta.spartaproject.entity;
+package sparta.spartaproject.entity.user;
 
 import lombok.*;
-import sparta.spartaproject.dto.SignUpReq;
+import sparta.spartaproject.dto.user.UserDto;
+import sparta.spartaproject.entity.common.TimeStamped;
+import sparta.spartaproject.entity.post.Post;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -39,10 +41,7 @@ public class User extends TimeStamped {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Comment> comments = new ArrayList<>();
-
-    public static User of(SignUpReq signUpReq) {
+    public static User of(UserDto.SignUpReq signUpReq) {
         return User.builder()
                 .loginId(signUpReq.getLoginId())
                 .loginPw(signUpReq.getLoginPw())
@@ -62,12 +61,4 @@ public class User extends TimeStamped {
         return false;
     }
 
-    public boolean hasThisComment(Comment targetComment) {
-        for (Comment comment : this.comments) {
-            if (comment.equals(targetComment)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

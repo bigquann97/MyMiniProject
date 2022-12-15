@@ -1,11 +1,11 @@
-package sparta.spartaproject.entity;
+package sparta.spartaproject.entity.post;
 
 import lombok.*;
-import sparta.spartaproject.dto.PostReq;
+import sparta.spartaproject.dto.post.PostDto;
+import sparta.spartaproject.entity.common.TimeStamped;
+import sparta.spartaproject.entity.user.User;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Builder
 @Entity
@@ -29,11 +29,7 @@ public class Post extends TimeStamped {
     @JoinColumn(name = "users_id")
     private User user;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @OrderBy("id asc") // 댓글 정렬
-    private List<Comment> comments = new ArrayList<>();
-
-    public static Post of(PostReq uploadPostReq, User user) {
+    public static Post of(PostDto.PostReq uploadPostReq, User user) {
         return Post.builder()
                 .title(uploadPostReq.getTitle())
                 .content(uploadPostReq.getContent())
@@ -41,17 +37,9 @@ public class Post extends TimeStamped {
                 .build();
     }
 
-    public void editPost(PostReq postReq) {
+    public void editPost(PostDto.PostReq postReq) {
         this.title = postReq.getTitle();
         this.content = postReq.getContent();
     }
 
-    public boolean hashThisComment(Comment targetComment) {
-        for (Comment comment : comments) {
-            if (comment.equals(targetComment)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

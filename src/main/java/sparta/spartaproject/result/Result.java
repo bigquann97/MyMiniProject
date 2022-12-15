@@ -1,4 +1,4 @@
-package sparta.spartaproject.service.result;
+package sparta.spartaproject.result;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;

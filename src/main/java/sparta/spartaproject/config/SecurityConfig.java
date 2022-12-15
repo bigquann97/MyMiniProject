@@ -2,6 +2,7 @@ package sparta.spartaproject.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,13 +15,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    //
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable(); // post 방식으로 값을 전송할 때 token을 사용해야하는 보안 설정을 해제
+        // 모든 접근 허용 + DB 확인용 코드
+        http.csrf().ignoringAntMatchers("/h2-console/**").disable();
         http.authorizeRequests()
-                .antMatchers("/**", "/api/**", "/api/user/**").permitAll()
+                .antMatchers("/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .httpBasic();
+    }
+
+    public void configure(WebSecurity web)throws Exception{
+        web.ignoring().antMatchers("/h2-console/**");
     }
 }

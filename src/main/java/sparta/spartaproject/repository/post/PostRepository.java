@@ -1,7 +1,7 @@
-package sparta.spartaproject.repository;
+package sparta.spartaproject.repository.post;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import sparta.spartaproject.entity.Post;
+import sparta.spartaproject.entity.post.Post;
 
 import java.util.List;
 
