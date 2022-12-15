@@ -42,7 +42,7 @@ public class PostService {
     @Transactional
     public void uploadPost(PostDto.PostReq postReq, HttpServletRequest request) {
         String loginId = validateTokenAndGetLoginId(request);
-        User user = userRepository.findUserByLoginId(loginId).orElseThrow(() -> new AccessDeniedException("잘못된 유저"));
+        User user = userRepository.findUserByLoginId(loginId).orElseThrow(NotExistUserException::new);
         Post post = Post.of(postReq, user);
         postRepository.save(post);
     }

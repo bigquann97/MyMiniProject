@@ -15,7 +15,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    //
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 모든 접근 허용 + DB 확인용 코드
